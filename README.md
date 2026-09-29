@@ -4,8 +4,9 @@ An Astro static site, deployed to a Cloudflare Worker by GitHub Actions,
 gated by HTTP Basic Auth out of the box.
 
 **Live demo:** [cftemplate.ossforge.dev](https://cftemplate.ossforge.dev) —
-password-protected, credentials not published here; it's just there to prove
-the pipeline itself works end to end.
+login `cftemplate` / `RocketPocket!58`. It's a throwaway demo credential for
+this one Worker's static content, not an account credential of any kind —
+publishing it here is safe.
 
 This exists because setting this exact stack up the first time hit three
 non-obvious failures — a Node/pnpm version mismatch, Cloudflare defaulting a
