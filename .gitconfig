@@ -1,0 +1,5 @@
+[user]
+	name = OSSForge
+	email = mail@ossforge.dev
+[core]
+	sshCommand = ssh -i /home/venkatesh/.ssh/id_ossforge_dev -o IdentitiesOnly=yes

@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+
+const repoUrl = 'https://github.com/ossforge-dev/astro-cf-worker-starter';
+
+const included = [
+  {
+    title: 'Astro, static output',
+    body: '`output: "static"` — pnpm build produces plain HTML/CSS/JS in dist/, no server runtime needed.',
+  },
+  {
+    title: 'Cloudflare Worker, not Pages',
+    body: 'wrangler.jsonc deploys a Worker with a static-assets binding. run_worker_first is set, or Cloudflare serves assets straight from the edge and skips the Worker — and the auth below — entirely.',
+  },
+  {
+    title: 'GitHub Actions CI/CD',
+    body: '.github/workflows/deploy.yml builds and deploys on every push to main via wrangler deploy. No manual upload step after the first one.',
+  },
+  {
+    title: 'HTTP Basic Auth, on by default',
+    body: 'worker/index.ts gates every request behind a username/password (Worker secrets, provisioned from GitHub secrets in CI) before serving assets. Delete worker/index.ts and the "main" key in wrangler.jsonc if you want a public site instead.',
+  },
+];
+
+const steps = [
+  'Create an empty Cloudflare Worker once, in the dashboard, named to match wrangler.jsonc\'s "name" — this bootstraps the project so CI has something to deploy to.',
+  'Create a Cloudflare API token scoped to Account → Workers Scripts → Edit, and find your Account ID.',
+  'Add four repo secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, BASIC_AUTH_USER, BASIC_AUTH_PASSWORD.',
+  'Push to main. CI builds, sets the Worker secrets, and deploys.',
+  'Optional: attach a custom domain to the Worker in the Cloudflare dashboard — Settings → Domains & Routes.',
+];
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>astro-cf-worker-starter</title>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <main class="mx-auto max-w-3xl px-6 py-16">
+      <p class="text-sm font-medium uppercase tracking-wide text-blue-600">Starter template</p>
+      <h1 class="mt-2 text-4xl font-bold tracking-tight">astro-cf-worker-starter</h1>
+      <p class="mt-4 text-lg text-slate-600">
+        An Astro static site, deployed to a Cloudflare Worker by GitHub Actions,
+        password-protected out of the box. Built from the setup for a real
+        private site, after working through the gotchas so you don't have to.
+      </p>
+
+      <a
+        href={repoUrl}
+        class="mt-6 inline-flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-700"
+      >
+        View on GitHub
+        <span aria-hidden="true">↗</span>
+      </a>
+
+      <section class="mt-14">
+        <h2 class="text-xl font-semibold">What's included</h2>
+        <dl class="mt-4 space-y-5">
+          {included.map((item) => (
+            <div>
+              <dt class="font-medium text-slate-900">{item.title}</dt>
+              <dd class="mt-1 text-slate-600">{item.body}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
+      <section class="mt-14">
+        <h2 class="text-xl font-semibold">Setup</h2>
+        <ol class="mt-4 list-decimal space-y-3 pl-5 text-slate-600">
+          {steps.map((step) => (
+            <li>{step}</li>
+          ))}
+        </ol>
+        <p class="mt-4 text-slate-600">
+          Full detail, including exactly why <code class="rounded bg-slate-200 px-1 py-0.5 text-sm">run_worker_first</code>
+          and the Node 22 pin exist, is in the repo's README.
+        </p>
+      </section>
+
+      <footer class="mt-16 border-t border-slate-200 pt-6 text-sm text-slate-500">
+        Replace this page — it exists to explain the template, not to be your homepage.
+      </footer>
+    </main>
+  </body>
+</html>

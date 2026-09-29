@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  // Rename this to your project — it's the Cloudflare Worker's name and
+  // must be unique in your account. Update --project-name references, if
+  // any, and the deploy step's expectations to match.
+  "name": "astro-cf-worker-starter",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-09-29",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    // Required: without this, Cloudflare serves matching static files
+    // directly from the edge and never runs the Worker, silently
+    // bypassing the Basic Auth check below.
+    "run_worker_first": true
+  }
+}

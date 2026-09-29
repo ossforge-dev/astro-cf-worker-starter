@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+}
+
+code, pre {
+  font-family: 'IBM Plex Mono', ui-monospace, SFMono-Regular, monospace;
+}
