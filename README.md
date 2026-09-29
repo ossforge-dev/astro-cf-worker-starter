@@ -3,6 +3,10 @@
 An Astro static site, deployed to a Cloudflare Worker by GitHub Actions,
 gated by HTTP Basic Auth out of the box.
 
+**Live demo:** [cftemplate.ossforge.dev](https://cftemplate.ossforge.dev) —
+password-protected, credentials not published here; it's just there to prove
+the pipeline itself works end to end.
+
 This exists because setting this exact stack up the first time hit three
 non-obvious failures — a Node/pnpm version mismatch, Cloudflare defaulting a
 new "upload assets" project to a Worker rather than a classic Pages project,
