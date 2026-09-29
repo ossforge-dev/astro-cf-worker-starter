@@ -23,10 +23,9 @@ const included = [
 ];
 
 const steps = [
-  'Create an empty Cloudflare Worker once, in the dashboard, named to match wrangler.jsonc\'s "name" — this bootstraps the project so CI has something to deploy to.',
-  'Create a Cloudflare API token scoped to Account → Workers Scripts → Edit, and find your Account ID.',
+  'Create a Cloudflare API token scoped to Account → Workers Scripts → Edit, and find your Account ID. Reusable across every Worker in the account, so skip this if you already have one.',
   'Add four repo secrets: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, BASIC_AUTH_USER, BASIC_AUTH_PASSWORD.',
-  'Push to main. CI builds, sets the Worker secrets, and deploys.',
+  'Push to main. CI creates the Worker if it doesn\'t exist yet, sets its secrets, and deploys — no manual pre-creation step, unlike Cloudflare Pages.',
   'Optional: attach a custom domain to the Worker in the Cloudflare dashboard — Settings → Domains & Routes.',
 ];
 ---

@@ -59,30 +59,34 @@ deploy` (Workers) to match what the dashboard actually creates.
 
 ## Repository setup (first time only)
 
-1. **Create the Worker once, manually.** Cloudflare dashboard → Workers &
-   Pages → Create application → Workers → give it the same name as
-   `wrangler.jsonc`'s `"name"`. This is a one-time bootstrap — CI can only
-   deploy *to* an existing Worker, it won't create one from nothing on the
-   first run.
-2. **Create a scoped API token.** Cloudflare dashboard → My Profile → API
+Unlike classic Cloudflare Pages, a Worker doesn't need to exist before you
+can deploy to it — `wrangler deploy` creates it from nothing on first run,
+as long as the token below has the right permission. No manual dashboard
+step to pre-create anything.
+
+1. **Create a scoped API token.** Cloudflare dashboard → My Profile → API
    Tokens → Create Custom Token → `Account → Workers Scripts → Edit`,
-   scoped to your account.
-3. **Find your Account ID.** Cloudflare dashboard → any domain → sidebar.
-4. **Add four GitHub Actions secrets** (repo **Settings → Secrets and
+   scoped to your account. This permission isn't scoped to one Worker name,
+   so if you already have a token like this for another Worker in the same
+   account, you can reuse it instead of making a new one.
+2. **Find your Account ID.** Cloudflare dashboard → any domain → sidebar.
+   Same value across every Worker in the account — also reusable.
+3. **Add four GitHub Actions secrets** (repo **Settings → Secrets and
    variables → Actions**):
 
    | Secret | Value |
    | --- | --- |
-   | `CLOUDFLARE_API_TOKEN` | From step 2. |
-   | `CLOUDFLARE_ACCOUNT_ID` | From step 3. |
+   | `CLOUDFLARE_API_TOKEN` | From step 1. |
+   | `CLOUDFLARE_ACCOUNT_ID` | From step 2. |
    | `BASIC_AUTH_USER` | Whatever username you want. |
    | `BASIC_AUTH_PASSWORD` | Whatever password you want. |
 
-5. **Push to `main`.** CI pushes the Basic Auth secrets into the Worker via
-   `wrangler secret put` and deploys. Rotating the password later is just
-   updating the `BASIC_AUTH_PASSWORD` GitHub secret and re-running the
-   workflow — no code change needed.
-6. **Optional: attach a custom domain.** Cloudflare dashboard → Workers &
+4. **Push to `main`.** CI builds, creates the Worker named in
+   `wrangler.jsonc` if it doesn't exist yet, pushes the Basic Auth secrets
+   into it via `wrangler secret put`, and deploys. Rotating the password
+   later is just updating the `BASIC_AUTH_PASSWORD` GitHub secret and
+   re-running the workflow — no code change needed.
+5. **Optional: attach a custom domain.** Cloudflare dashboard → Workers &
    Pages → your Worker → Settings → Domains & Routes → Custom Domains. The
    domain's zone must already be on Cloudflare for this to auto-provision
    DNS and TLS.
