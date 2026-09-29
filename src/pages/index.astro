@@ -20,6 +20,10 @@ const included = [
     title: 'HTTP Basic Auth, on by default',
     body: 'worker/index.ts gates every request behind a username/password (Worker secrets, provisioned from GitHub secrets in CI) before serving assets. Delete worker/index.ts and the "main" key in wrangler.jsonc if you want a public site instead.',
   },
+  {
+    title: 'Optional daily-rotating password',
+    body: 'Set a BASIC_AUTH_SEED secret and the Worker derives a new password every UTC day (HMAC of the seed and the date) — a scheduled workflow republishes it in the README on the same schedule. This demo uses it; a real private site should just use a static password instead.',
+  },
 ];
 
 const steps = [

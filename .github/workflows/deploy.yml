@@ -41,6 +41,7 @@ jobs:
         run: |
           echo "${{ secrets.BASIC_AUTH_USER }}" | pnpm exec wrangler secret put BASIC_AUTH_USER
           echo "${{ secrets.BASIC_AUTH_PASSWORD }}" | pnpm exec wrangler secret put BASIC_AUTH_PASSWORD
+          echo "${{ secrets.BASIC_AUTH_SEED }}" | pnpm exec wrangler secret put BASIC_AUTH_SEED
 
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3

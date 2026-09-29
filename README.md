@@ -53,6 +53,25 @@ pnpm check
   `wrangler deploy`. Excluded from the root `tsconfig.json` (see its
   `exclude`) since `worker/` runs in the Workers runtime, not the site's.
 
+### Rotating demo password (optional)
+
+This repo's own live demo publishes its password in this README (see
+above) — safe to do, since it's a throwaway credential with no path to
+account access, but it also means anyone could just leave it unchanged
+forever. Instead, `worker/index.ts` supports an optional `BASIC_AUTH_SEED`
+secret: when set, it supersedes `BASIC_AUTH_PASSWORD` with a password
+derived from `HMAC-SHA256(seed, today's UTC date)`, so it changes every day
+without a redeploy. `.github/workflows/rotate-demo-password.yml` runs daily,
+derives that same value with the identical algorithm
+(`.github/scripts/rotate-demo-password.mjs`), and republishes it here. The
+Worker accepts today's and yesterday's derived password, so there's no
+outage in the few minutes between the day rolling over and that workflow
+running.
+
+A real private deployment should just leave `BASIC_AUTH_SEED` unset and use
+a static `BASIC_AUTH_PASSWORD` — this exists to keep a *public* demo
+crawlable-but-gated, not as a general auth pattern.
+
 ### Why a Worker and not Cloudflare Pages
 
 Cloudflare's dashboard "Workers & Pages → Create application → Upload
@@ -85,6 +104,7 @@ step to pre-create anything.
    | `CLOUDFLARE_ACCOUNT_ID` | From step 2. |
    | `BASIC_AUTH_USER` | Whatever username you want. |
    | `BASIC_AUTH_PASSWORD` | Whatever password you want. |
+   | `BASIC_AUTH_SEED` | Optional — only for a daily-rotating password. See "Rotating demo password" below. Leave unset for a normal static password. |
 
 4. **Push to `main`.** CI builds, creates the Worker named in
    `wrangler.jsonc` if it doesn't exist yet, pushes the Basic Auth secrets
