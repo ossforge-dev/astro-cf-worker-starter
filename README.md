@@ -4,7 +4,7 @@ An Astro static site, deployed to a Cloudflare Worker by GitHub Actions,
 gated by HTTP Basic Auth out of the box.
 
 **Live demo:** [cftemplate.ossforge.dev](https://cftemplate.ossforge.dev) —
-login `cftemplate` / `Demo-4116f6dfc0a69371`. It's a throwaway demo credential for
+login `cftemplate` / `Demo-44063497ca83c795`. It's a throwaway demo credential for
 this one Worker's static content, not an account credential of any kind —
 publishing it here is safe.
 
